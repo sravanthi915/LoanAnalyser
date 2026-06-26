@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sravanthi.dto.LoanResponse;
 import com.sravanthi.entity.Customer;
+import com.sravanthi.exception.CustomerNotFoundException;
 import com.sravanthi.repository.ICustomerRepository;
 @Service
 public class CustomerService implements ICustomerService {
@@ -54,10 +55,15 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer getCustomerById(Long id) {
 
-	    return repo.findById(id)
-	               .orElseThrow(() ->
-	                   new RuntimeException("Customer Not Found"));
+		return repo.findById(id)
+		        .orElseThrow(() ->
+		            new CustomerNotFoundException(
+		                "Customer with ID " + id + " not found"));
 	}
+		
+//	Customer customer = repo.findById(id)
+//	        .orElseThrow(() -> new CustomerNotFoundException(
+//	                "Customer with ID " + id + " not found"));
 
 	@Override
 	public List<Customer> getAllCustomers() {
@@ -71,7 +77,7 @@ public class CustomerService implements ICustomerService {
 
 		    Customer existingCustomer = repo.findById(customerId)
 		            .orElseThrow(() ->
-		            new RuntimeException("Customer Not Found"));
+		            new CustomerNotFoundException("Customer with" +customerId +"Not found"));
 
 		    existingCustomer.setName(customer.getName());
 		    existingCustomer.setEmail(customer.getEmail());
@@ -85,11 +91,10 @@ public class CustomerService implements ICustomerService {
 	@Override
 		public void deleteCustomer(Long id) {
 
-		    Customer customer = repo.findById(id)
-		            .orElseThrow(() ->
-		            new RuntimeException("Customer Not Found"));
-
-		    repo.delete(customer);
+		Customer customer = repo.findById(id)
+		        .orElseThrow(() ->
+		            new CustomerNotFoundException(
+		                "Customer with ID " + id + " not found"));
 		}
 		
 	}

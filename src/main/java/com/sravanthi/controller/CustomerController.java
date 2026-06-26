@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.sravanthi.dto.LoanResponse;
 import com.sravanthi.entity.Customer;
@@ -25,7 +26,7 @@ public class CustomerController {
 //test commit
 	//added response handling
 @PostMapping("/customer/register")
-public Customer registerCustomer(@RequestBody Customer customer) {
+public Customer registerCustomer(@Valid @RequestBody Customer customer) {
 
     Customer savedCustomer = service.registerCustomer(customer);
 
@@ -36,7 +37,7 @@ public Customer registerCustomer(@RequestBody Customer customer) {
 @PostMapping("/loan/analyse")
 public LoanResponse analyseLoan(
         @RequestBody Customer customer) {
-
+	
     return service.analyseLoan(customer);
 }
 @GetMapping("/customer/{id}")
