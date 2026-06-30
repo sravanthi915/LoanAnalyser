@@ -1,5 +1,10 @@
 package com.sravanthi.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Customer {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Long customerId;
 	
 	@NonNull
@@ -43,4 +48,10 @@ public class Customer {
 	@NonNull
 	@Positive(message="Esisting emi must be greater than zero")
 	private Double existingEmi;
+	
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 }
